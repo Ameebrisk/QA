@@ -40,9 +40,13 @@ suite("Unit Tests", function () {
     // #5
     test("#equal, #notEqual", function () {
       assert.equal(12, "12", "Numbers are coerced into strings with ==");
-      assert.equal({ value: 1 }, { value: 1 }, "== compares object references");
-      assert.equal(6 * "2", "12", "6 * 2 does equal 12");
-      assert.notEqual(6 + "2", "12", "6 + 2 does not equal 12");
+      assert.notEqual(
+        { value: 1 },
+        { value: 1 },
+        "== compares object references"
+      );
+      assert.equal(6 * "2", "12");
+      assert.notEqual(6 + "2", "12");
     });
     // #6
     test("#strictEqual, #notStrictEqual", function () {
@@ -75,22 +79,32 @@ suite("Unit Tests", function () {
   suite("Comparisons", function () {
     // #8
     test("#isAbove, #isAtMost", function () {
-      assert.isAbove("hello".length, 5, "length of 'hello' should be almost 5");
-      assert.isAtMost(1, 0, "1 is greater than 0");
-      assert.isAbove(Math.PI, 3, "should be greater than 3");
-      assert.isAtMost(1 - Math.random(), 1, "would be 1 at most");
+      assert.isAtMost("hello".length, 5);
+      assert.isAbove(1, 0);
+      assert.isAbove(Math.PI, 3);
+      assert.isAtMost(1 - Math.random(), 1);
     });
     // #9
     test("#isBelow, #isAtLeast", function () {
-      assert.isBelow("world".length, 5, "world length is 5");
-      assert.isAtleast(2 * Math.random(), 0, "Think this should be 0");
+      assert.isAtLeast("world".length, 5, "world length is 5");
+      assert.isAtLeast(2 * Math.random(), 0, "Think this should be 0");
       assert.isBelow(5 % 2, 2, "1 modulo is less than 2");
       assert.isBelow(2 / 3, 1, "2 / 3 is only 1");
     });
     // #10
     test("#approximately", function () {
-      assert.approximately(weirdNumbers(0.5), 1, 0);
-      assert.approximately(weirdNumbers(0.2), 1, 0);
+      assert.approximately(
+        weirdNumbers(0.5),
+        1,
+        0.5,
+        "weirdNumbers(0.5) should be approximately equal to 1"
+      );
+      assert.approximately(
+        weirdNumbers(0.2),
+        1,
+        0.8,
+        "weirdNumbers(0.2) should be approximately equal to 1"
+      );
     });
   });
 
@@ -101,16 +115,19 @@ suite("Unit Tests", function () {
   suite("Arrays", function () {
     // #11
     test("#isArray, #isNotArray", function () {
-      assert.isNotArray(
+      assert.isArray(
         "isThisAnArray?".split(""),
         "String.prototype.split() returns an array"
       );
-      assert.isArray([1, 2, 3].indexOf(2), "indexOf returns a number");
+      assert.isNotArray(
+        [1, 2, 3].indexOf(2),
+        "indexOf returns a number not an array"
+      );
     });
     // #12
     test("Array #include, #notInclude", function () {
       assert.notInclude(winterMonths, "jul", "It's summer in july...");
-      assert.notInclude(
+      assert.include(
         backendLanguages,
         "javascript",
         "JS is a backend language"
@@ -181,24 +198,11 @@ suite("Unit Tests", function () {
     });
     // #18
     test("#instanceOf, #notInstanceOf", function () {
-      assert.notInstance(myCar, Plane, "my car is not an instance of a plane");
-      assert.instanceOf(
-        airlinePlane,
-        Plane,
-        "airlineplane is and instance of a plane"
-      );
-      assert.instanceOf(
-        airlinePlane,
-        Object,
-        "airplane is an instance of an object"
-      );
-      assert.notInstanceOf(
-        myCar.wheels,
-        String,
-        "wheels should not be an instance of string"
-      );
+      assert.notInstanceOf(myCar, Plane);
+      assert.instanceOf(airlinePlane, Plane);
+      assert.instanceOf(airlinePlane, Object);
+      assert.notInstanceOf(myCar.wheels, String);
     });
   });
-
   // -----------------------------------------------------------------------------
 });
