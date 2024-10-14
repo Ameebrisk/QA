@@ -30,23 +30,36 @@ suite("Functional Tests", function () {
       chai
         .request(server)
         .keepOpen()
-        .get("/hello?name=xy_z")
+        .get("/hello?name=Amee")
         .end(function (err, res) {
-          assert.fail(res.status, 200);
-          assert.fail(res.text, "hello xy_z");
+          if (err) {
+            console.error(err);
+            return done(err);
+          }
+          assert.equal(res.status, 200);
+          assert.equal(res.text, "hello Amee");
           done();
         });
     });
     // #3
+    const response = () => ({
+      dates: "1451 - 1506",
+      name: "Cristoforo",
+      surname: "Colombo",
+    });
+
     test('Send {surname: "Colombo"}', function (done) {
       chai
         .request(server)
         .keepOpen()
         .put("/travellers")
-
+        .send({ surname: "Colombo" })
         .end(function (err, res) {
-          assert.fail();
+          if (err) return done(err);
 
+          assert.equal(res.status, 200);
+          assert.deepEqual(res.body, response());
+          console.log(res.body);
           done();
         });
     });
